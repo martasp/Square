@@ -84,6 +84,15 @@ namespace Square.WebUI.Controllers
             return CreatedAtAction("GetPoint", new { id = point.Id }, point);
         }
 
+        [HttpPost("/api/PostListPoints")]
+        public async Task<ActionResult<List<Point>>> PostListPoints(List<Point> points)
+        {
+            await _context.Points.AddRangeAsync(points);
+            await _context.SaveChangesAsync();
+
+            return points;
+        }
+
         // DELETE: api/Points/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePoint(int id)

@@ -2,6 +2,10 @@
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using Square.Application.Common.Dtos;
+using Square.Application.Common.Exceptions;
+using Square.Application.Common.Responses;
+using Square.Domain.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +14,12 @@ namespace Square.Application.Common.Rasteriser
 {
     public class PolygonRasteriser
     {
-        public int CountSquares(List<Domain.Entities.Point> points)
+        public SquareCounterResponse Rasterise(List<Domain.Entities.Point> points)
         {
+            var isMoreThanTree = points.Count < 3;
+            if (isMoreThanTree)
+                throw new RasterizationException();
+
             var maximumCordinateOfX = points.Max(point => point.X);
             var maximumCordinateOfY = points.Max(point => point.Y);
 
@@ -19,6 +27,8 @@ namespace Square.Application.Common.Rasteriser
                 .Select(point => new SixLabors.ImageSharp.PointF(point.X, point.Y))
                 .ToArray();
 
+
+            var squareCounterResponse = new SquareCounterResponse();
             var counter = 0;
             using (var image = new Image<Rgb24>(maximumCordinateOfX, maximumCordinateOfY))
             {
@@ -31,13 +41,16 @@ namespace Square.Application.Common.Rasteriser
                     {
                         var isWhite = pixelRowSpan[x].R == 255;
                         if (isWhite)
+                        {
+                            squareCounterResponse.SquarePositions.Add(new PointDto {X = x, Y = y });
                             counter++;
+                        }
                     }
                 }
-
-                image.SaveAsBmp(@"C:\Users\mart\Desktop\s\image.bmp");
+                //image.SaveAsBmp(@"C:\Users\mart\Desktop\s\image.bmp"); // Rasterised image
             }
-            return counter;
+            squareCounterResponse.Count = counter;
+            return squareCounterResponse;
         }
     }
 }

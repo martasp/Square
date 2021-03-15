@@ -12,7 +12,6 @@ namespace Square.WebUI.Services
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly PolygonRasteriser _polygonRasterizer;
 
-
         public SquareCounterService(ApplicationDbContext applicationDbContext, PolygonRasteriser polygonRasterizer)
         {
             _applicationDbContext = applicationDbContext;
@@ -22,8 +21,8 @@ namespace Square.WebUI.Services
         public async Task<SquareCounterResponse> Count()
         {
             var points = await _applicationDbContext.Points.ToListAsync();
-            var count = _polygonRasterizer.CountSquares(points);
-            return new SquareCounterResponse { Count = count };
+            var squareCounterResponse = _polygonRasterizer.Rasterise(points);
+            return squareCounterResponse;
         }
     }
 }

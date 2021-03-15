@@ -19,9 +19,9 @@ namespace Square.Application.UnitTests.Common.Exceptions
 
 
             var polygonRasteriser = new PolygonRasteriser();
-            var countedSquares = polygonRasteriser.CountSquares(points);
+            var countedSquares = polygonRasteriser.Rasterise(points);
 
-            countedSquares.Should().Be(4);
+            countedSquares.Count.Should().Be(4);
         }
         [Test]
         public void Should10x10SquareHave100()
@@ -33,9 +33,9 @@ namespace Square.Application.UnitTests.Common.Exceptions
             points.Add(new Point { X = 0, Y = 10 });
 
             var polygonRasteriser = new PolygonRasteriser();
-            var countedSquares = polygonRasteriser.CountSquares(points);
+            var countedSquares = polygonRasteriser.Rasterise(points);
 
-            countedSquares.Should().Be(100);
+            countedSquares.Count.Should().Be(100);
         }
 
     }
