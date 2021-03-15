@@ -2,16 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using Square.Application.Common.Interfaces;
 using Square.Application.Common.Rasteriser;
+using Square.WebUI.Services;
 using System.Reflection;
 
-namespace Square.Application
+namespace Square.WebUI
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddTransient<PolygonRasteriser, PolygonRasteriser>();
+            services.AddTransient<ISquareCounterService, SquareCounterService>();
             return services;
         }
     }
