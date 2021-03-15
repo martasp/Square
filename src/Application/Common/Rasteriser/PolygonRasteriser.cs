@@ -16,8 +16,8 @@ namespace Square.Application.Common.Rasteriser
     {
         public SquareCounterResponse Rasterise(List<Domain.Entities.Point> points)
         {
-            var isMoreThanTree = points.Count < 3;
-            if (isMoreThanTree)
+            var isLessThanTree = points.Count < 3;
+            if (isLessThanTree)
                 throw new RasterizationException();
 
             var maximumCordinateOfX = points.Max(point => point.X);
@@ -26,7 +26,6 @@ namespace Square.Application.Common.Rasteriser
             var pointsF = points
                 .Select(point => new SixLabors.ImageSharp.PointF(point.X, point.Y))
                 .ToArray();
-
 
             var squareCounterResponse = new SquareCounterResponse();
             var counter = 0;

@@ -1,5 +1,4 @@
 ﻿using Square.Domain.Common;
-using Square.Domain.ValueObjects;
 
 namespace Square.Domain.Entities
 {

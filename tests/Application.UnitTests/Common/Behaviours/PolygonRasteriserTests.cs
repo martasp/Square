@@ -17,7 +17,6 @@ namespace Square.Application.UnitTests.Common.Exceptions
             points.Add(new Point { X = 2, Y = 4 });
             points.Add(new Point { X = 4, Y = 0 });
 
-
             var polygonRasteriser = new PolygonRasteriser();
             var countedSquares = polygonRasteriser.Rasterise(points);
 
