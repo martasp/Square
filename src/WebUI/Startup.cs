@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Square.Application.Common.Interfaces;
+using Square.WebUI.Services;
 
 namespace Square.WebUI
 {
@@ -25,7 +28,8 @@ namespace Square.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructure(Configuration);
+            services.AddInfrastructure();
+            services.AddServices();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -50,7 +54,6 @@ namespace Square.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Square v1"));
             }
